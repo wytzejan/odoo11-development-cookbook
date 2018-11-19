@@ -1,6 +1,6 @@
 {
- 'name': "Learning module",
- 'summary': "Short subtitle phrase",
+ 'name': "Library Books",
+ 'summary': "Manage your books",
  'description': """Long description""",
  'author': "codeNext",
  'license': "AGPL-3",
@@ -8,6 +8,10 @@
  'category': 'Uncategorized',
  'version': '11.0.1.0.0',
  'depends': ['base'],
- #'data': ['views.xml'],
+ 'data': [
+  'security/groups.xml',
+  'views/library_book.xml',
+  'security/ir.model.access.csv'
+ ],
  #'demo': ['demo.xml'],
 }
