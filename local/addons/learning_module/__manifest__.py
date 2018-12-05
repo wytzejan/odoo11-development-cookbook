@@ -7,7 +7,7 @@
  'website': "http://www.codenext.nl",
  'category': 'Uncategorized',
  'version': '11.0.1.0.0',
- 'depends': ['base'],
+ 'depends': ['base', 'decimal_precision'],
  'data': [
   'security/groups.xml',
   'views/library_book.xml',
