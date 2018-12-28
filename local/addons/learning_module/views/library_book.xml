@@ -22,6 +22,24 @@
         </group>
         <group>
           <field name="date_release"/>
+          <field name="age_days"/>
+        </group>
+        <group>
+          <field name="short_name"/>
+          <field name="notes"/>
+          <field name="state"/>
+          <field name="description"/>
+          <field name="cover"/>
+          <field name="out_of_print"/>
+          <field name="date_updated"/>
+          <field name="pages"/>
+          <field name="reader_rating"/>
+          <field name="cost_price"/>
+          <field name="currency_id"/>
+          <field name="retail_price"/>
+          <field name="publisher_id"/>
+          <field name="publisher_city"/>
+          <field name="ref_doc_id"/>
         </group>
       </form>
 
