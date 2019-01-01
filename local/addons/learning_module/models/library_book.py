@@ -34,6 +34,7 @@ class LibraryBook(models.Model):
     state = fields.Selection(
         [('draft', 'Not Available'),
          ('available', 'Available'),
+         ('borrowed', 'Borrowed'),
          ('lost', 'Lost')],
         'State')
     description = fields.Html(
@@ -138,6 +139,25 @@ class LibraryBook(models.Model):
     def _referencable_models(self):
         models = self.env['res.request.link'].search([])
         return [(x.object, x.name) for x in models]
+
+    @api.model
+    def is_allowed_transition(self, old_state, new_state):
+        allowed = [('draft', 'available'),
+                   ('available', 'borrowed'),
+                   ('available', 'lost'),
+                   ('borrowed', 'lost'),
+                   ('lost', 'available')]
+        return (old_state, new_state) in allowed
+
+
+    @api.multi
+    def change_state(self, new_state):
+        for book in self:
+            if book.is_allowed_transition(book.state,
+                                          new_state):
+                book.state = new_state
+            else:
+                continue
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
