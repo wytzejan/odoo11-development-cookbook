@@ -159,6 +159,11 @@ class LibraryBook(models.Model):
             else:
                 continue
 
+    @api.model
+    def get_all_library_members(self):
+        library_member_model = self.env['library.member']
+        return library_member_model.search([])
+
 class ResPartner(models.Model):
     _inherit = 'res.partner'
     _order = 'name'
