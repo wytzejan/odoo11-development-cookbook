@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, exceptions
 from odoo.addons import decimal_precision as dp
 from odoo.fields import Date as fDate
 from datetime import timedelta
@@ -93,6 +93,7 @@ class LibraryBook(models.Model):
     ref_doc_id = fields.Reference(
         selection='_referencable_models',
         string='Reference Document')
+    manager_remarks = fields.Text('Manager Remarks')
 
     _sql_constraints = [
         ('name_uniq',
@@ -163,6 +164,41 @@ class LibraryBook(models.Model):
     def get_all_library_members(self):
         library_member_model = self.env['library.member']
         return library_member_model.search([])
+
+    @api.model
+    def create(self, values):
+        if not self.user_has_groups(
+            'library.group_library_manager'):
+            if 'manager_remarks' in values:
+                raise exceptions.UserError(
+                    'You are not allowed to modify '
+                    'manager_remarks'
+                )
+        return super(LibraryBook, self).create(values)
+
+    @api.model
+    def write(self, values):
+        if not self.user_has_groups(
+            'library.group_library_manager'):
+            if 'manager_remarks' in values:
+                raise exceptions.UserError(
+                    'You are not allowed to modify '
+                    'manager_remarks'
+                )
+        return super(LibraryBook, self).write(values)
+
+    @api.model
+    def fields_get(self,
+                   allfields=None,
+                   attributes=None):
+        fields = super(LibraryBook, self).fields_get(
+            allfields=allfields,
+            attributes=attributes
+        )
+        if not self.user_has_groups(
+            'library.group_library_manager'):
+            if 'manager_remarks' in fields:
+                fields['manager_remarks']['readonly'] = True
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
