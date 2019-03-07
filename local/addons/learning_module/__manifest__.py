@@ -11,7 +11,8 @@
  'data': [
   'security/groups.xml',
   'views/library_book.xml',
-  'security/ir.model.access.csv'
+  'security/ir.model.access.csv',
+  'data/res_partner.xml'
  ],
- #'demo': ['demo.xml'],
+ 'demo': ['data/demo.xml'],
 }
