@@ -13,10 +13,10 @@
   'views/library_book.xml',
   'security/ir.model.access.csv',
   # 'data/res_partner.xml',
-  'data/res_partner.yml'
+  # 'data/res_partner.yml'
  ],
  'demo': [
   # 'data/demo.xml',
-  'data/demo.yml'
+  # 'data/demo.yml'
  ],
 }
