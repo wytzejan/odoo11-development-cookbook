@@ -19,12 +19,16 @@ class LibraryLoanWizard(models.TransientModel):
 
     @api.multi
     def record_loans(self):
+        loan = self.env['library.book.loan']
         for wizard in self:
+            member = wizard.member_id
             books = wizard.book_ids
-            loan = self.env['library.book.loan']
             for book in books:
-                values = wizard._prepare_loan(book)
-                loan.create(values)
+                # values = wizard._prepare_loan(book)
+                loan.create({
+                    'member_id': member.id,
+                    'book_id': book.id
+                })
 
     @api.multi
     def _prepare_loan(self, book):
