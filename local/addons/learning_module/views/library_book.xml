@@ -110,4 +110,40 @@
             action="action_wizard_loan_books"
             sequence="20"/>
 
+  <record id="library_loan_returns_wizard_form" model="ir.ui.view">
+    <field name="name">library loan returns wizard form view</field>
+    <field name="model">library.returns.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Return books">
+        <sheet>
+          <group>
+            <field name="member_id"/>
+          </group>
+          <group>
+            <field name="book_ids"/>
+          </group>
+        </sheet>
+        <footer>
+          <button name="record_returns"
+                  string="OK"
+                  class="btn-primary"
+                  type="object"/>
+          <button string="Cancel"
+                  class="btn-default"
+                  special="cancel"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+
+  <act_window id="action_wizard_return_loan_books"
+              name="Record Returns"
+              res_model="library.returns.wizard"
+              view_mode="form"
+              target="new"/>
+  <menuitem id="menu_wizard_return_loan_books"
+            parent="library_book_menu"
+            action="action_wizard_return_loan_books"
+            sequence="30"/>
+
 </odoo>
