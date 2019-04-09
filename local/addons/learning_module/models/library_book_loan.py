@@ -12,10 +12,12 @@ class LibraryBookLoan(models.Model):
                              'State',
                              default='ongoing', required=True)
 
+
 class LibraryLoanWizard(models.TransientModel):
     _name = 'library.loan.wizard'
     member_id = fields.Many2one('library.member', string='Member')
     book_ids = fields.Many2many('library.book', string='Books')
+    expected_return_date = fields.Date('Expected return date')
 
     @api.multi
     def record_loans(self):
@@ -61,3 +63,22 @@ class LibraryReturnsWizard(models.TransientModel):
              ('member_id', '=', self.member_id.id)]
         )
         self.book_ids = loans.mapped('book_id')
+        # result = {
+        #     'domain': {'book_ids': [
+        #         ('id', 'in', self.book_ids.ids)
+        #     ]}
+        # }
+        # late_domain = [
+        #     ('id', 'in', loans.id),
+        #     ('expected_return_date', '<', fields.Date.today())
+        # ]
+        # late_loans = loans.search(late_domain)
+        # if late_loans:
+        #     message = ('Warn the member that the following '
+        #                'books are late:\n')
+        #     titles = late_loans.mapped('book_id.name')
+        #     result['warning'] = {
+        #         'title': 'Late books',
+        #         'message': message + '\n'.join(titles)
+        #     }
+        # return result
