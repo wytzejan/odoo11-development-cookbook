@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, tools
 
 
 class LibraryBookLoan(models.Model):
@@ -82,3 +82,22 @@ class LibraryReturnsWizard(models.TransientModel):
         #         'message': message + '\n'.join(titles)
         #     }
         # return result
+
+class LibraryBookLoanStatistics(models.Model):
+    _name = 'library.book.loan.statistics'
+    _auto = False
+
+    book_id = fields.Many2one('library.book', 'Book', readonly=True)
+    loan_id = fields.Many2one('library.book.loan', 'Loan', readonly=True)
+    author_id = fields.Many2one('res.partner', 'Author', readonly=True)
+    reader_id = fields.Many2one('library.member', 'Reader', readonly=True)
+    reader_age = fields.Integer(
+        'Reader age', readonly=True,
+        group_operator='avg',
+        help="the age of the reader when he borrowed the book"
+    )
+
+    @api.model.cr
+    def init(self):
+        tools.drop_view_if_exists(self.env.cr, self._table)
+        query = ""
