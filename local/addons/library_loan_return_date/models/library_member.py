@@ -22,6 +22,6 @@ class LibraryMember(models.Model):
         for name, val in value.items():
             if isinstance(val, tuple):
                 value[name] = val[0]
-        values.update(value)gi
+        values.update(value)
         wiz = wizard.create(values)
         return wiz.record_returns()
