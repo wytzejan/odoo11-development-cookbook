@@ -11,6 +11,7 @@
  'data': [
   'security/groups.xml',
   'views/library_book.xml',
+  'views/chapter10.xml',
   'security/ir.model.access.csv',
   # 'data/res_partner.xml',
   # 'data/res_partner.yml'
