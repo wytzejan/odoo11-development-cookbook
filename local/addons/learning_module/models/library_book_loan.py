@@ -83,6 +83,7 @@ class LibraryReturnsWizard(models.TransientModel):
         #     }
         # return result
 
+
 class LibraryBookLoanStatistics(models.Model):
     _name = 'library.book.loan.statistics'
     _auto = False
@@ -97,7 +98,26 @@ class LibraryBookLoanStatistics(models.Model):
         help="the age of the reader when he borrowed the book"
     )
 
-    @api.model.cr
+    @api.model_cr
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
-        query = ""
+        query = """
+        CREATE OR REPLACE VIEW library_book_loan_statistics AS (
+        SELECT loan.id + author.res_partner_id * (SELECT MAX(id) FROM
+                                                    library_book_loan)
+                    AS id,
+                loan.book_id AS book_id,
+                loan.id AS loan_id,
+                author.res_partner_id AS author_id,
+                reader.id AS reader_id,
+                EXTRACT(YEAR FROM age(loan.create_date,
+                                            reader.date_of_birth))
+                    AS reader_age
+        FROM library_book_loan AS loan
+        JOIN library_book AS book ON (loan.book_id = book.id)
+        JOIN library_book_res_partner_rel AS author ON (book.id =
+                                                author.library_book_id)
+        JOIN library_member as reader ON (loan.member_id = reader.id)
+        )
+        """
+        self.env.cr.execute(query)
