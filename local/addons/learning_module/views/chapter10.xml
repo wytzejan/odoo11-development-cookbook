@@ -28,8 +28,16 @@
         <field name="model">res.partner</field>
         <field name="arch" type="xml">
             <form>
-                <group>
+                <header>
+                    <button type="object" name="open_commercial_entity"
+                            string="Open commercial partner"
+                            class="btn-primary"/>
+                    <button type="action" name="%(base.action_partner_category_form)d"
+                            string="Open partner categories"/>
+                </header>
+                <group string="Content" name="my_content">
                     <field name="name"/>
+                    <field name="category_id" widget="many2many_tags"/>
                 </group>
             </form>
         </field>
@@ -41,4 +49,5 @@
         <field name="view_mode">form</field>
         <field name="sequence">10</field>
     </record>
+
 </odoo>
